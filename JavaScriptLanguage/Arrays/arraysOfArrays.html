@@ -1,0 +1,46 @@
+<script>
+
+    function print2DimensionalArray(array) {
+        for(var x=0;x<array.length;x++) {
+            document.write("<p>");
+            for(var y=0;y<array[x].length;y++) {
+                document.write(array[x][y] + " ");
+            }
+            document.write("</p>");
+        }
+        document.write("<p>-------------------------</p>");
+    }
+    var arrayOne = new Array();
+    arrayOne[0] = new Array();
+    arrayOne[1] = new Array();
+    arrayOne[2] = new Array();
+
+    arrayOne[0][0] = "abc";
+    arrayOne[0][1] = "def";
+    arrayOne[0][2] = "ghi";
+
+    arrayOne[1][0] = "abc";
+    arrayOne[1][1] = "def";
+    arrayOne[1][2] = "ghi";
+    arrayOne[1][3] = "jkl";
+
+    arrayOne[2][0] = "abc";
+    arrayOne[2][1] = "def";
+    arrayOne[2][2] = "ghi";
+    arrayOne[2][3] = "jkl";
+    arrayOne[2][4] = "mno";
+
+    print2DimensionalArray(arrayOne);
+
+    var arrayTwo = new Array(3);
+    arrayTwo[0] = ["abc","def","ghi"];
+    arrayTwo[1] = ["abc","def","ghi","jkl"];
+    arrayTwo[2] = ["abc","def","ghi","jkl","mno"];
+
+    print2DimensionalArray(arrayTwo);
+
+
+    var arrayThree = [["abc","def","ghi"],["abc","def","ghi","jkl"],["abc","def","ghi","jkl","mno"]];
+
+    print2DimensionalArray(arrayThree);
+</script>

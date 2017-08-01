@@ -1,0 +1,29 @@
+<script>
+    function printArray(ar) {
+        document.write("<p>");
+        for(var i=0;i<ar.length;i++) {
+            document.write(ar[i] + " ");
+        }
+        document.write("</p>");
+    }
+
+    var arrayOne  = new Array();
+    arrayOne[0] = "abc";
+    arrayOne[1] = 123;
+    arrayOne[2] = "def";
+    arrayOne[3] = 456;
+    arrayOne[4] = "ghi";
+    arrayOne[5] = 789;
+
+    printArray(arrayOne);
+
+    var arrayTwo = new Array("abc",123,"def",456,"ghi",789);
+
+    printArray(arrayTwo);
+
+    var arrayThree = ["abc",123,"def",456,"ghi",789];
+
+    printArray(arrayThree);
+
+</script>
+

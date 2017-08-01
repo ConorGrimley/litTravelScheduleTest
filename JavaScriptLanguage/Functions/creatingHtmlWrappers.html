@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            function putStuffInDiv(stuff,divId) {
+                var theDiv = document.getElementById(divId);
+                theDiv.innerHTML = stuff;
+            }
+            function wrapInH1(text) {
+                return "<h1>" + text + "</h1>";
+            }
+            function wrapInH2(text) {
+                return "<h2>" + text + "</h2>";
+            }
+            function wrapInTag(tagName, text) {
+                return "<" + tagName + ">" + text + "</" + tagName + ">";
+            }
+            function buildWrapper(tagName) {
+                return function(text) {
+                    return "<" + tagName + ">" + text + "</" + tagName + ">";
+                };
+            }
+             function buildDecorator(tagNames) {
+                return function(text) {
+                    var result = "";
+                    for(var i=0;i<tagNames.length;i++) {
+                        result += "<" + tagNames[i] + ">";
+                    }
+                    result += text;
+                    for(var i=0;i<tagNames.length;i++) {
+                        result += "</" + tagNames[i] + ">";
+                    }
+                    return result;
+                };
+            }
+            function doDemo() {
+                putStuffInDiv(wrapInH1('Stan'),'div1');
+                putStuffInDiv(wrapInH2('Francene'),'div2');
+                putStuffInDiv(wrapInTag('h3','Klaus'),'div3');
+                
+                var wrapInItalics = buildWrapper('i');
+                var wrapInBold = buildWrapper('b');
+                var wrapInH4 = buildWrapper('h4');
+                var highlight = buildWrapper('mark');
+                
+                putStuffInDiv(wrapInItalics('Hayley'),'div4');
+                putStuffInDiv(wrapInBold('Steve'),'div5');
+                putStuffInDiv(wrapInH4('Roger'),'div6');
+                putStuffInDiv(highlight('Jeff'),'div7');
+                
+                var decorateWithList = buildDecorator(['ol','li']);
+                var decorateWithTableHeader = buildDecorator(['table','tr','th']);
+                var decorateWithMarkBoldAndItalic = buildDecorator(['mark','b','i']);
+                putStuffInDiv(decorateWithList('Homer'),'div8');
+                putStuffInDiv(decorateWithTableHeader('Marge'),'div9');
+                putStuffInDiv(decorateWithMarkBoldAndItalic('Bart'),'div10');
+            }
+        </script>
+    </head>
+    <body onload="doDemo();">
+        <div id="div1"></div>
+        <hr/>
+        <div id="div2"></div>
+        <hr/>
+        <div id="div3"></div>
+        <hr/>
+        <div id="div4"></div>
+        <hr/>
+        <div id="div5"></div>
+        <hr/>
+        <div id="div6"></div>
+        <hr/>
+        <div id="div7"></div>
+        <hr/>
+        <div id="div8"></div>
+        <hr/>
+        <div id="div9"></div>
+        <hr/>
+        <div id="div10"></div>
+        <hr/>
+    </body>
+</html>

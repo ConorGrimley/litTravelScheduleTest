@@ -1,0 +1,34 @@
+<script>
+    function doReflection(obj) {
+        document.write("<h2>All members of object are:</h2>");
+        for(var member in obj) {
+            document.write("&nbsp;&nbsp;&nbsp;&nbsp;");
+            document.write(member);
+            document.write("<br/>");
+        }
+        document.write("<h2>Accessing fields:</h2>");
+        for(var i=1;i<4;i++) {
+            document.write("&nbsp;&nbsp;&nbsp;&nbsp;");
+            document.write(obj["field" + i]);
+            document.write("<br/>");
+        }
+        document.write("<h2>Calling methods:</h2>");
+        for(var i=1;i<4;i++) {
+            document.write("&nbsp;&nbsp;&nbsp;&nbsp;");
+            var func = obj["method" + i];
+            document.write(func());
+            document.write("<br/>");
+        }
+    }
+
+    var obj1 = new Object();
+    obj1.field1 = "ABC";
+    obj1.field2 = "DEF";
+    obj1.field3 = "GHI";
+    obj1.method1 = function() { return 123; };
+    obj1.method2 = function() { return 456; };
+    obj1.method3 = function() { return 789; };
+    doReflection(obj1);
+
+
+</script>

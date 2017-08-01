@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="../../Frameworks/underscore/underscore-min.js"></script>
+        <script>
+            function buildOutputFunction(outputId) {
+                function addToSomeOutput(text, outputId) {
+                    var output = document.getElementById(outputId);
+                    output.innerHTML += " ";
+                    output.innerHTML += text;
+                }
+                return function(item) {
+                    addToSomeOutput(item, outputId);
+                };
+            }
+            function buildFilterFunction(typeName) {
+                return function(input) {
+                    return typeof(input) === typeName;
+                }
+            }
+            function runDemo() {
+                var writeToOut1 = buildOutputFunction('out1');
+                var writeToOut2 = buildOutputFunction('out2');
+                var writeToOut3 = buildOutputFunction('out3');
+                var writeToOut4 = buildOutputFunction('out4');
+
+                var filterForStrings = buildFilterFunction('string');
+                var filterForNumbers = buildFilterFunction('number');
+
+                function multiplyByThree(item) {
+                    return item * 3;
+                }
+
+                var myArray = [123,"abc",456,"def",789,"ghi"];
+                _.each(myArray, writeToOut1);
+                
+                var newArray = _.filter(myArray, filterForStrings);
+                _.each(newArray, writeToOut2);
+                
+                _.each(_.filter(myArray, filterForNumbers), writeToOut3);
+                       
+                _.each(_.map(_.filter(myArray, filterForNumbers), multiplyByThree), writeToOut4);
+            }
+        </script>
+    </head>
+    <body onload="runDemo()">
+        <output id="out1"></output>
+        <hr/>
+        <output id="out2"></output>
+        <hr/>
+        <output id="out3"></output>
+        <hr/>
+        <output id="out4"></output>
+    </body>
+</html>

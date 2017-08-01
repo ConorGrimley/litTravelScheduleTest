@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            input[type=range]:before { content: attr(min); padding-right: 5px; }  
+            input[type=range]:after { content: attr(max); padding-left: 5px;}  
+        </style>
+        <script>
+            var people = [];
+            function startup() {
+                var body = document.getElementById('tableBody');
+                body.innerHTML = "<tr><th colspan='3' style='text-align:center'>No Data Yet!</th></tr>";
+            }
+            //constructor function for people
+            function Person(name, age, salary) {
+                this.name = name;
+                this.age = age;
+                if(typeof(salary) === 'number') {
+                    this.salary = salary;
+                }else {
+                    this.salary = parseFloat(salary);
+                }
+                this.hasName = function(name) { return this.name === name; }
+                this.awardBonus = function(amount) { this.salary += amount; }
+            }
+            function addPerson() {
+                var theForm = document.forms[0];
+                var thePerson = new Person(theForm.myName.value,
+                                           theForm.myAge.value,
+                                           theForm.mySalary.value);
+                people.push(thePerson);
+                viewPeople();
+            }
+            function deleteTableEntries(tableBody) {
+                while (tableBody.hasChildNodes()) {
+                    tableBody.removeChild(tableBody.lastChild);
+                }
+            }
+            function viewPeople() {
+                var body = document.getElementById('tableBody');
+                deleteTableEntries(body);
+                for (var x = 0; x < people.length; x++) {
+                    var rowNode = buildRowBasedOnPerson(people[x]);
+                    body.appendChild(rowNode);
+                }
+            }
+            function buildRowBasedOnPerson(person) {
+                var rowNode = document.createElement("tr");
+                
+                rowNode.appendChild(buildTableCellWithText(person.name));
+                rowNode.appendChild(buildTableCellWithText(person.age));
+                rowNode.appendChild(buildTableCellWithText(person.salary));
+                
+                return rowNode;
+            }
+            function buildTableCellWithText(theText) {
+                var cellNode = document.createElement("td");
+                var textNode = document.createTextNode(theText);
+                cellNode.appendChild(textNode);
+                return cellNode;
+            }
+            function awardRaise() {
+                var employeeName = document.forms[1].name.value;
+                var amountOfRaise = parseFloat(document.forms[1].raise.value);
+                
+                var person = null;
+                for(var i=0;i<people.length;i++) {
+                    if(people[i].hasName(employeeName)) {
+                        person = people[i];
+                    }
+                }
+                if(person === null) {
+                    alert('No person called ' + employeeName);
+                } else {
+                    person.awardBonus(amountOfRaise);
+                    viewPeople();
+                }
+            }
+        </script>
+    </head>
+    <body onload="startup()">
+        <h1>Personal Details Entry</h1>
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Age</th><th>Salary</th></tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+        <hr/>
+        <h2>Add An Employee</h2>
+        <form method="post" action="javascript:addPerson()">
+            <div>
+                <label>Your Name (letters or spaces only)</label>              
+                <input pattern="[a-zA-Z ]+" required="required" type="text" name="myName" value="Dave"/>
+            </div>
+            <div>
+                <label>Your Age</label>
+                <input type="number" min="16" max="65" name="myAge" value="32"/>
+            </div>
+            <div>
+                <label>Your Salary</label><br/>
+                <input type="range" name="mySalary" min="12000" max="80000" value="16000"/>
+            </div>
+            <input type="submit" value="Add Details"/>
+        </form>
+        <hr/>
+        <h2>Award An Employee a Raise</h2>
+        <form action="javascript:awardRaise()">
+             <div>
+                <label>Employees Name (letters or spaces only)</label>              
+                <input pattern="[a-zA-Z ]+" required="required" type="text" name="name" value="Dave"/>
+            </div>
+            <div>
+                <label>Amount of Raise</label>
+                <input step="250" type="number" min="250" max="5500" name="raise" value="1000"/>
+            </div>
+            <input type="submit" value="Give Someone A Raise"/>
+        </form>
+    </body>
+</html>

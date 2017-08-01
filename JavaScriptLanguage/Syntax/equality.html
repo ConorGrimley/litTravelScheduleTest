@@ -1,0 +1,55 @@
+<script>
+    var myVar1 = null;
+    var myVar2;
+
+    if(myVar1 == myVar2) {
+        document.write("null and undefined ARE considered equal with ==<hr/>");
+    } else {
+        document.write("null and undefined ARE NOT considered equal with ==<hr/>");
+    }
+
+    if(myVar1 === myVar2) {
+        document.write("null and undefined ARE considered equal with ===<hr/>");
+    } else {
+        document.write("null and undefined ARE NOT considered equal with ===<hr/>");
+    }
+
+    myVar1 = 123;
+    myVar2 = "123";
+
+    if(myVar1 == myVar2) {
+        document.write("strings and numbers CAN be compared with ==<hr/>");
+    } else {
+        document.write("strings and numbers CANNOT be compared with ==<hr/>");
+    }
+        
+    if(myVar1 === myVar2) {
+        document.write("strings and numbers CAN be compared with ===<hr/>");
+    } else {
+        document.write("strings and numbers CANNOT be compared with ===<hr/>");
+    }
+
+    myVar1 = 1;
+    myVar2 = true;
+
+    if(myVar1 == myVar2) {
+        document.write("true and 1 ARE identical with ==<hr/>");
+    } else {
+        document.write("true and 1 ARE NOT identical with ==<hr/>");
+    }
+        
+    if(myVar1 === myVar2) {
+        document.write("true and 1 ARE identical with ===<hr/>");
+    } else {
+        document.write("true and 1 ARE NOT identical with ===<hr/>");
+    }
+
+    myVar1 = 2;
+    myVar2 = true;
+
+    if(myVar1 == myVar2) {
+        document.write("true and numbers other than one ARE identical with ==<hr/>");
+    } else {
+        document.write("true and numbers other than one ARE NOT identical with ==<hr/>");
+    }
+</script>

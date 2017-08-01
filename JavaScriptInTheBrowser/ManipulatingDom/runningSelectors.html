@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Running CSS Selectors</title>
+        <script>
+            function runQuery(queryStr) {
+                function processNode(node) {
+                    result += node.id.trim();
+                    result += " ";
+                }
+                var result = "'" + queryStr + "' gives: ";
+                var nodes = document.querySelectorAll(queryStr);
+                
+                for(var x = 0;x<nodes.length;x++) {
+                    processNode(nodes[x]);
+                }
+                console.log(result);
+            }
+            function runQueryForSingleNode(queryStr) {
+                var result = document.querySelector(queryStr);
+                var resultStr = "Query '" + queryStr + "' gives element holding '";
+                console.log(resultStr + result.innerHTML.trim() + "'");
+            }
+            function runDemo() {
+                runQuery("p");
+                runQuery("p:first-child");
+                runQuery("p:last-child");
+                runQuery("p:first-of-type");
+                runQuery("p:last-of-type");
+                runQuery("p:nth-child(2)");
+                runQuery("body p");
+                runQuery("body > p");
+                runQuery("body div p");
+                runQuery("div#myDivTwo p");
+                runQuery("h2 + p");
+                runQuery("h2 ~ p");
+                runQuery("p[style]");
+                runQuery(".myStyle");
+                runQuery("p:not(.myStyle)");
+                runQueryForSingleNode("p[id='p5']");
+            }
+    </script>
+    </head>
+    <body onload="runDemo();">
+       <h1>Running CSS Selectors</h1>
+        <h2>Output is printed to the console...</h2>
+        <p id="p1">
+            Paragraph one
+        </p>
+        <p id="p2" style="font-weight: bold">
+            Paragraph two
+        </p>
+        <p id="p3" class="myStyle">
+            Paragraph three
+        </p>
+        <p id="p4" style="font-weight: bold">
+            Paragraph four
+        </p>
+        <p id="p5">
+            Paragraph five
+        </p>
+        <div id="myDivOne">
+            <p id="p6" style="font-weight: bold">
+                Paragraph six
+            </p>
+            <p id="p7" class="myStyle">
+                Paragraph seven
+            </p>
+            <p id="p8" style="font-weight: bold">
+                Paragraph eight
+            </p>
+        </div>
+        <div id="myDivTwo">
+            <p id="p9">
+                Paragraph nine
+            </p>
+            <p id="p10" style="font-weight: bold">
+                Paragraph ten
+            </p>
+        </div>
+    </body>
+</html>

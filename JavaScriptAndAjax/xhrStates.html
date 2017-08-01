@@ -1,0 +1,73 @@
+<html> 
+    <head>
+        <title>Stages in an AJAX Request</title>
+        <script>
+            function sendRequest() {
+                var ajaxClient;
+
+                if (window.XMLHttpRequest) {
+                    ajaxClient = new XMLHttpRequest();
+
+                } else {
+                    ajaxClient = new ActiveXObject("Microsoft.XMLHTTP");
+
+                }
+                ajaxClient.onreadystatechange = function() { handleResult(ajaxClient); };
+                ajaxClient.open("GET","http://localhost:8080/states",true);
+                ajaxClient.send();
+            }
+            function handleResult(xhr) {
+                displayXhrStatus(xhr);
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        printMsg(xhr.responseText);
+                    }
+                }
+            }
+            function displayXhrStatus(xhr) {
+                var listNode = document.getElementById("xhrStatesList");
+                var listItemNode = document.createElement("li");
+                var msg = "State is: " + xhr.readyState + " ";
+                switch(xhr.readyState) {
+                    case 0:
+                        msg += "(Uninitialized)";
+                    break;
+                    case 1:
+                        msg += "(Loading)";
+                    break;
+                    case 2:
+                        msg += "(Loaded)";
+                    break;
+                    case 3:
+                        msg += "(Interactive)";
+                    break;
+                    case 4:
+                        msg += "(Completed)";
+                    break;
+
+                }
+                var now = new Date();
+                msg += (" at " + now.getUTCHours() + ":"
+                               + now.getUTCMinutes() + "."
+                               + now.getUTCSeconds());
+                var textNode = document.createTextNode(msg);
+                listItemNode.appendChild(textNode);
+                listNode.appendChild(listItemNode);
+            }
+            function printMsg(msg) {
+                document.getElementById("results").innerHTML = msg;
+            }
+        </script>
+    </head>
+    <body>
+        <form onsubmit="return false;">
+            <ol id="xhrStatesList"></ol>
+            <p id="results">
+            </p>
+            <p>
+                <input name="myButton" onclick="sendRequest();"
+                       type="submit" value="Push Me"/>
+            </p>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Working with Headers in XHR</title>
+        <script>
+            function sendRequest() {
+                var ajaxClient;
+
+                if (window.XMLHttpRequest) {
+                    ajaxClient = new XMLHttpRequest();
+
+                } else {
+                    ajaxClient = new ActiveXObject("Microsoft.XMLHTTP");
+
+                }
+                ajaxClient.onreadystatechange = function() { handleResult(ajaxClient); };
+                ajaxClient.open("GET","http://localhost:8080/headers",true);
+                ajaxClient.send();
+            }
+            function handleResult(xhr) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        displayHeaders(xhr);
+                        printMsg(xhr.responseText);
+                    }
+                }
+            }
+            function displayHeaders(xhr) {
+                //place all the headers inside a <pre> tag
+                var preTag = document.getElementById("allHeaders");
+                preTag.innerHTML = xhr.getAllResponseHeaders();
+
+                //place manually added headers in an list
+                var listNode = document.getElementById("xhrHeadersList");
+                var myHeaders = {foo: xhr.getResponseHeader("foo"),
+                                 bar: xhr.getResponseHeader("bar"),
+                                 zed: xhr.getResponseHeader("zed")};
+                for(var name in myHeaders) {
+                    var listItemNode = document.createElement("li");
+                    var textNode = document.createTextNode(name + "=" + myHeaders[name]);
+                    listItemNode.appendChild(textNode);
+                    listNode.appendChild(listItemNode);
+                }
+            }
+            function printMsg(msg) {
+                document.getElementById("results").innerHTML = msg;
+            }
+        </script>
+    </head>
+    <body>
+        <form onsubmit="return false;">
+            <h3>All the headers in the request:</h3>
+            <pre id="allHeaders">
+            </pre>
+            <hr/>
+            <h3>The custom headers:</h3>
+            <ul id="xhrHeadersList"></ul>
+            <hr/>
+            <h3>The body of the response:</h3>
+            <p id="results">
+            </p>
+            <hr/>
+            <p>
+                <input name="myButton" onclick="sendRequest();"
+                       type="submit" value="Push Me"/>
+            </p>
+        </form>
+    </body>
+</html>

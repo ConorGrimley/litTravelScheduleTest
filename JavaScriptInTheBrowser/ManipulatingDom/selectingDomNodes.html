@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Events Demo</title>
+        <script>
+            function runDemo() {
+                function displayResult(item) {
+                    function wrap(x) {
+                        return "<li>" + x + "</li>";
+                    }
+                    var output = document.getElementById("results");
+                    output.innerHTML += wrap(item);
+                }
+                function navigationByFormShortcuts() {
+                    return document.forms[0].elements[0].value;
+                }
+                function navigationByNames() {
+                    return document.myform.element2.value;
+                }
+                function navigationById() {
+                    return document.getElementById("foo").value;
+                }
+                function navigationByLinkShortcuts() {
+                    var results = Array(2);
+                    results[0] = document.links[0].href;
+                    results[1] = document.links[1].href;
+                    return results;
+                }
+		displayResult(navigationByFormShortcuts());
+                displayResult(navigationByNames());
+                displayResult(navigationById());
+                var links = navigationByLinkShortcuts();
+                displayResult(links[0]);
+                displayResult(links[1]);
+            }
+        </script>
+    </head>
+    <body>
+        <h2>Output of demo goes below:</h2>
+        <ul id="results"></ul>
+        <form name="myform" action="javascript:runDemo()">
+            <p>
+                <input name="element1" type="text" value="Data One"/><br/>
+                <input name="element2" type="text" value="Data Two"/><br/>
+                <input name="element3" id="foo" type="text" value="Data Three"/><br/>
+                <a href="http://place1">link1</a>  <a href="http://place2">link2</a><br/>
+            </p>
+            <p>
+                <input type="submit" value="Push Me"/>
+            </p>
+        </form>
+    </body>
+</html>

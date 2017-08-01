@@ -1,0 +1,26 @@
+<script>
+    function func() {
+        document.write("C: " + myvar1 + "<br/>");
+        document.write("D: " + myvar2 + "<br/>");
+                
+        var myvar1 = "def";
+        document.write("E: " + myvar1 + "<br/>");
+        document.write("F: " + myvar2 + "<br/>");
+                
+        if(1 < 2) {
+            var myvar2 = 456;
+        }
+        document.write("G: " + myvar1 + "<br/>");
+        document.write("H: " + myvar2 + "<br/>");
+    }
+    var myvar1 = "abc";
+    var myvar2 = 123;
+        
+    document.write("A: " + myvar1 + "<br/>");
+    document.write("B: " + myvar2 + "<br/>");
+        
+    func();
+        
+    document.write("I: " + myvar1 + "<br/>");
+    document.write("J: " + myvar2 + "<br/>");
+</script>

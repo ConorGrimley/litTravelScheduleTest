@@ -1,0 +1,61 @@
+<html>
+	<head>
+        <link href="/JavaScriptExamples/Frameworks/nvd3/nv.d3.css" rel="stylesheet" type="text/css">
+        <script src="/JavaScriptExamples/Frameworks/d3/d3.v3.js" charset="utf-8"></script>
+        <script src="/JavaScriptExamples/Frameworks/nvd3/nv.d3.js"></script>
+		<script src="/JavaScriptExamples/Frameworks/lodash/lodash.min.js"></script>
+	</head>
+	<body>
+		<h1>Favorite programing languages</h1>
+		<div id="inputs"></div>
+		<div id="chart">
+			<svg></svg>
+		</div>
+	</body>
+	<footer>
+		<script>
+			d3.json('http://localhost:8080/graphs/pieChart', function (data) {
+				data = data.values;
+
+				nv.addGraph(function() {
+                    // Create a pie chart builder.
+					var chart = nv.models.pieChart();
+                    chart.x(function(d) { return d.label }); // Labels will be shown on the x axis.
+					chart.y(function(d) { return d.value }); // Values will be shown on the y axis.
+					chart.height(window.innerHeight * 0.90); // The height in pixels of the graph as created in the SVG tag.
+
+					d3.select('#chart svg') // Specify the svg element that the chart will be shown on.
+					  .datum(data)          // Load data.
+					  .call(chart);         // Pass chart settings.
+
+					d3.select("#inputs")
+						.selectAll("span")
+						.data(data)
+						.enter()
+						.append("span")
+							.text(function (dataPoint) {
+								return dataPoint.label;
+							})
+						.append("input")
+							.attr("type", "text")
+							.attr("value", function(dataPoint) {
+								return dataPoint.value;
+							})
+							.attr("name", function(dataPoint) {
+								return dataPoint.label;
+							})
+							.on("input", function() {
+								console.log("This version does not support updating...");
+							});
+
+					nv.utils.windowResize(function() {
+						chart.height(window.innerHeight * 0.90)
+						chart.update();
+					}); // Whenever the window is resized then resize the chart.
+
+					return chart;
+				});
+			});
+		</script>
+	</footer>
+</html>

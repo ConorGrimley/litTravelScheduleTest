@@ -1,0 +1,27 @@
+<script>
+    function Person(p1,p2,p3) {
+        if(! (this instanceof Person)) {
+            console.log("Person constructor invoked incrrrectly for " + p1);
+            return new Person(p1,p2,p3);
+        }
+        this.name = p1;
+        this.age = p2;
+        this.address = p3;
+    }
+
+    var p1 = new Person("Fred Bloggs",29,"11 Arcatia Road");
+    var p2 = Person("Susan Bloggs",30,"12 Arcatia Road");
+
+    function printPerson(person) {
+        document.write("<p>Person called ");
+        document.write(person.name);
+        document.write(" of age ");
+        document.write(person.age);
+        document.write(" living at ");
+        document.write(person.address);
+        document.write("</p>");
+        document.write("<hr/>");
+    }
+    printPerson(p1);
+    printPerson(p2);
+</script>

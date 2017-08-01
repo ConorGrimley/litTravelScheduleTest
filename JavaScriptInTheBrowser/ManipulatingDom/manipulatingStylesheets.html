@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Template For Self Marking Exams</title>
+        <style type="text/css">
+            .correct {font-weight:normal;}
+            .incorrect {text-decoration:none;}
+            .title {text-align: center; }
+        </style>
+        <script>
+            function toggleAnswers() {
+                function checkRuleSelector(rule, expectedText) {
+                    if(rule.selectorText !== expectedText) {
+                        alert("Selected rule " + rule.selectorText + " by mistake!");
+                        return false;
+                    }
+                    return true;
+                }
+                function togglePropertyValue(rule, name, optionA, optionB) {
+                    var decoration = rule.style.getPropertyValue(name);
+                    if( decoration === optionA) {
+                        rule.style.setProperty(name,optionB,"");
+                    } else if( decoration === optionB) {
+                        rule.style.setProperty(name,optionA,"");
+                    } else {
+                        alert("Unknown " + name + ": " + decoration);
+                    }
+                }
+                var rule1 = document.styleSheets[0].cssRules[0];
+                var rule2 = document.styleSheets[0].cssRules[1];
+                
+                if(checkRuleSelector(rule1,".correct")) {
+                    togglePropertyValue(rule1, "font-weight","normal","bold");
+                }
+                if(checkRuleSelector(rule2,".incorrect")) {
+                    togglePropertyValue(rule2, "text-decoration","none","line-through");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form action="javascript:toggleAnswers()">
+            <h2 class="title">Template For Self Marking Exams</h2>
+            <hr/>
+            <input type="submit" value="Show/Hide Answers"/>
+            <hr/>
+            <div id="Q1">
+                <h3>Question One</h3>
+                <p>Which company created JavaScript?</p>
+                <input type="hidden" name="q1answer" value="C"/>
+		(A) <input type="radio" name="q1" value="A" ></input><span class="incorrect">Sun</span><br/>
+		(B) <input type="radio" name="q1" value="B" ></input><span class="incorrect">Microsoft</span><br/>
+		(C) <input type="radio" name="q1" value="C" ></input><span class="correct">Netscape</span><br/>
+
+            </div>
+            <div id="Q2">
+                <h3>Question Two</h3>
+                <p>Which of the following are variants of JavaScript?</p>
+                <input type="hidden" name="q2answer" value="AD"/>
+                (A) <input type="checkbox" name="q2" value="A" ></input><span class="correct">JScript</span><br/>
+                (B) <input type="checkbox" name="q2" value="B" ></input><span class="incorrect">VBScript</span><br/>
+                (C) <input type="checkbox" name="q2" value="C" ></input><span class="incorrect">Python</span><br/>
+                (D) <input type="checkbox" name="q2" value="D" ></input><span class="correct">ECMAScript</span><br/>
+
+            </div>
+            <div id="Q3">
+                <h3>Question Three</h3>
+                <p>Is JavaScript a simplified form of Java?</p>
+                <input type="hidden" name="q3answer" value="B"/>
+                (A) <input type="radio" name="q3" value="A" ></input><span class="incorrect">Yes</span><br/>
+                (B) <input type="radio" name="q3" value="B" ></input><span class="correct">No</span><br/>
+            </div>
+        </form>
+    </body>
+</html>

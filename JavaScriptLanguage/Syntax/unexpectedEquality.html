@@ -1,0 +1,18 @@
+<script>
+    var myVar1 = new Array(4);
+    var myVar2 = ",,,";
+    var myVar3 = 1.00000000000000001;
+    var myVar4 = 1;
+
+    if(myVar1 == myVar2) {
+        document.write("<h1>JavaScript array equality is problematic</h1>");
+    } else {
+        document.write("<h1>JavaScript array equality is fine</h1>");
+    }
+
+    if(myVar3 == myVar4) {
+        document.write("<h1>Numeric equality will also surprise you</h1>");
+    } else {
+        document.write("<h1>Numeric equality will not surprise you</h1>");
+    }
+</script>

@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Events Demo</title>
+        <script>
+            function registerHandlers() {
+                document.forms[0].myButton.onmouseover = function() { printMsg('Mouse Over'); }; 
+                document.forms[0].myButton.onclick = function() { printMsg('Mouse Clicked'); }; 
+                document.forms[0].myButton.onmouseout = function() { printMsg('Mouse Outside'); }; 
+            }
+            function printMsg(msg) {
+                document.forms[0].elements[0].value = msg;
+            }
+        </script>
+    </head>
+    <body onload="registerHandlers();">
+        <form action="javascript:alert('Form Submitted')">
+            <p>
+                <input type="text" name="msgs" value="messages"/>
+            </p>
+            <p>
+                <input name="myButton" type="submit" value="Push Me"/>
+            </p>
+        </form>
+    </body>
+</html>

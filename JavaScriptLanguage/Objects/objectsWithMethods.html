@@ -1,0 +1,34 @@
+<script>
+    function printEmployee() {
+        var msg = "<p>Empoyee called ";
+        msg += this.name;
+        msg += " working in ";
+        msg += this.dept;
+        msg += " earning ";
+        msg += this.salary;
+        msg += "</p>";
+        return msg;
+    }
+    function Employee(p1,p2,p3) {
+        this.name = p1;
+        this.dept = p2;
+        this.salary = p3;
+        this.toString = printEmployee;
+        this.awardBonus = function(bonus) {this.salary += bonus;};
+    }
+
+    var e1 = new Employee("Homer","IT",30000);
+    var e2 = new Employee("Marge","HR",40000);
+
+    document.write("<h3>Employees Before Bonus</h3>");
+    document.write(e1);
+    document.write(e2);
+
+    e1.awardBonus(500);
+    e2.awardBonus(1000);
+
+    document.write("<h3>Employees After Bonus</h3>");
+    document.write(e1);
+    document.write(e2);
+
+</script>

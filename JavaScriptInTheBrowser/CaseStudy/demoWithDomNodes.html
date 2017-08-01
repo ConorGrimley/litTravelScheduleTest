@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            var people = [];
+            function addPerson() {
+                var thePerson = {
+                    name: document.forms[0].myName.value,
+                    age: document.forms[0].myAge.value,
+                    salary: document.forms[0].mySalary.value
+                };
+                people.push(thePerson);
+                var outputTag = document.getElementById('out1');
+                outputTag.innerHTML = "So far we have stored " + people.length + " people";
+            }
+            function viewPeople() {
+                var body = document.getElementById('tableBody');
+                for (var x = 0; x < people.length; x++) {
+                    var rowNode = buildRowBasedOnPerson(people[x]);
+                    body.appendChild(rowNode);
+                }
+            }
+            function buildRowBasedOnPerson(person) {
+                var rowNode = document.createElement("tr");
+                
+                rowNode.appendChild(buildTableCellWithText(person.name));
+                rowNode.appendChild(buildTableCellWithText(person.age));
+                rowNode.appendChild(buildTableCellWithText(person.salary));
+                
+                return rowNode;
+            }
+            function buildTableCellWithText(theText) {
+                var cellNode = document.createElement("td");
+                var textNode = document.createTextNode(theText);
+                cellNode.appendChild(textNode);
+                return cellNode;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Personal Details Entry</h1>
+        <output id="out1"></output>
+        <form method="post" action="javascript:addPerson()">
+            <div>
+                <label>Your Name</label>              
+                <input type="text" name="myName" value="Dave"/>
+            </div>
+            <div>
+                <label>Your Age</label>
+                <input type="text" name="myAge" value="32"/>
+            </div>
+            <div>
+                <label>Your Salary</label>
+                <input type="text" name="mySalary" value="16000"/>
+            </div>
+            <input type="submit" value="Add Details"/>
+        </form>
+        <form action="javascript:viewPeople()">
+            <input type="submit" value="View Stored People"/>
+        </form>
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Age</th><th>Salary</th></tr>
+            </thead>
+            <tbody id="tableBody">
+
+            </tbody>
+        </table>
+    </body>
+</html>

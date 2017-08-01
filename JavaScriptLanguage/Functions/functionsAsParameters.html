@@ -1,0 +1,23 @@
+<script>
+    function countUpTo(limit,func) {
+        for(i=1;i<=limit;i++) {
+            func(i);
+        }
+    }
+    function test1(val) {
+        document.write("test1 message " + val + " <br/>");
+    }
+    var test2 = function(val) {
+        document.write("test2 message " + val + " <br/>");
+    };
+
+    document.write("<hr/>");
+    countUpTo(5,test1);
+    document.write("<hr/>");
+    countUpTo(10,test2);
+    document.write("<hr/>");
+    countUpTo(15, function(val){ 
+                    document.write("test3 message " + val + " <br/>"); 
+                  });
+	
+</script>

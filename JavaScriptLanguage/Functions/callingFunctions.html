@@ -1,0 +1,29 @@
+<script>
+    function add(p1,p2) {
+        return p1 + p2;
+    }
+
+    var resultOne = add(15,3);
+    document.write("<p>First call to add returns: " + resultOne + "</p>");
+
+    var func = add;
+    var resultTwo = func(12,7);
+    document.write("<p>Second call to add returns: " + resultTwo + "</p>");
+
+    function printArgs(p1,p2,p3,p4) {
+        document.write("<p>Function printArgs called with: ");
+        for(var i=0;i<arguments.length;i++) {
+            document.write(arguments[i] + " ");
+        }
+        document.write("</p>");
+    }
+
+    document.write("<p>Function printArgs expects: " + printArgs.length + " arguments</p>");
+
+    printArgs("a");
+    printArgs("a","b");
+    printArgs("a","b","c");
+    printArgs("a","b","c","d");
+    printArgs("a","b","c","d","e");
+    printArgs("a","b","c","d","e","f");
+</script>

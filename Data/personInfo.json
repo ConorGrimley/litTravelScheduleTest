@@ -1,0 +1,14 @@
+{
+    "forename" : "Dave",
+    "surname" : "Jones",
+    "addresses" : [
+        { "number" : 10, "street" : "University Street", "city" : "Belfast" },
+        { "number" : 12, "street" : "Connolly Street", "city" : "Dublin" },
+        { "number" : 14, "street" : "State Street", "city" : "Boston" }
+    ], 
+    "employer" : {
+        "name" : "MegaCorp",
+        "dept" : "IT",
+        "yearsService" : 5
+    }
+}

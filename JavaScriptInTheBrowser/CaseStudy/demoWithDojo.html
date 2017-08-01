@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="/JavaScriptExamples/Frameworks/dojo/dojo.js"
+                data-dojo-config="parseOnLoad:true, isDebug:false"></script>
+        <script>
+            var people = [];
+            dojo.addOnLoad(function(){
+                var addForm = dojo.byId('addPersonForm');
+                var viewForm = dojo.byId('viewPeopleForm');
+                
+                dojo.connect(addForm,'submit', addPerson);
+                dojo.connect(viewForm,'submit', viewPeople);
+            });
+            
+            function addPerson(theEvent) {
+                dojo.stopEvent(theEvent);
+                 var addForm = dojo.byId('addPersonForm');
+                var thePerson = {
+                    name: addForm.myName.value,
+                    age:  addForm.myAge.value,
+                    salary: addForm.mySalary.value
+                };
+                people.push(thePerson);
+                var outputTag = dojo.byId('out1');
+                outputTag.innerHTML = "So far we have stored " + people.length + " people";
+            }
+            function viewPeople(theEvent) {
+                dojo.stopEvent(theEvent);
+                var body = dojo.byId('tableBody');
+                for (var x = 0; x < people.length; x++) {
+                    var rowNode = buildRowBasedOnPerson(people[x]);
+                    dojo.place(rowNode,body,'last');
+                }
+            }
+            function buildRowBasedOnPerson(person) {
+                var rowNode = dojo.create("tr");
+                
+                dojo.create('td',{innerHTML: person.name},rowNode);
+                dojo.create('td',{innerHTML: person.age},rowNode);
+                dojo.create('td',{innerHTML: person.salary},rowNode);
+                
+                return rowNode;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Personal Details Entry</h1>
+        <output id="out1"></output>
+        <form id='addPersonForm'>
+            <div>
+                <label>Your Name</label>              
+                <input type="text" name="myName" value="Dave"/>
+            </div>
+            <div>
+                <label>Your Age</label>
+                <input type="text" name="myAge" value="32"/>
+            </div>
+            <div>
+                <label>Your Salary</label>
+                <input type="text" name="mySalary" value="16000"/>
+            </div>
+            <input type="submit" value="Add Details"/>
+        </form>
+        <form id='viewPeopleForm' >
+            <input type="submit" value="View Stored People"/>
+        </form>
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Age</th><th>Salary</th></tr>
+            </thead>
+            <tbody id="tableBody">
+
+            </tbody>
+        </table>
+    </body>
+</html>

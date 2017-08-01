@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Timers Demo</title>
+        <script>
+            var timerId;
+            var intervalId;
+
+            function register1() {
+                printMsg("About to start timer...");
+                timerId = window.setTimeout(function() { printMsg("Timer expired!"); }, 5000);
+            }
+            function cancel1() {
+                printMsg("About to cancel timer...");
+                window.clearTimeout(timerId);
+            }
+            function register2() {
+                printMsg("About to start interval...");
+                intervalId = window.setInterval(function() { addIntervalMsg(); }, 3000);
+            }
+            function cancel2() {
+                printMsg("About to cancel interval...");
+                window.clearInterval(intervalId);
+            }
+            function registerHandlers() {
+                document.forms[0].startTimerButton.onclick = register1;
+                document.forms[0].cancelTimerButton.onclick = cancel1;
+                document.forms[0].startIntervalButton.onclick = register2;
+                document.forms[0].cancelIntervalButton.onclick = cancel2;
+            }
+            function addIntervalMsg() {
+                var txt = document.createTextNode("Interval fired");
+                var listItem = document.createElement("li");
+                listItem.appendChild(txt);
+                var list = document.getElementById("myList");
+                list.appendChild(listItem);
+            }
+            function printMsg(msg) {
+                document.forms[0].elements[0].value = msg;
+            }
+        </script>
+    </head>
+    <body onload="registerHandlers();">
+        <ol id="myList"></ol>
+        <form onsubmit="return false;">
+            <p>
+                <input name="messages" type="text" size="20"/>
+            </p>
+            <p>
+                <input name="startTimerButton" type="submit" value="Start Timer"/><br/>
+                <input name="cancelTimerButton" type="submit" value="Cancel Timer"/>
+            </p>
+            <p>
+                <input name="startIntervalButton" type="submit" value="Start Interval"/><br/>
+                <input name="cancelIntervalButton" type="submit" value="Cancel Interval"/>
+            </p>
+        </form>
+    </body>
+</html>

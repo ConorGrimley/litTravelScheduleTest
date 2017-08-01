@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Hello AJAX</title>
+        <script>
+            function sendRequest() {
+                var ajaxClient;
+
+                if (window.XMLHttpRequest) {
+                    ajaxClient = new XMLHttpRequest();
+
+                } else {
+                    ajaxClient = new ActiveXObject("Microsoft.XMLHTTP");
+
+                }
+                ajaxClient.onreadystatechange = function() { handleResult(ajaxClient); };
+                ajaxClient.open("GET","http://localhost:8080/genJSON",true);
+                ajaxClient.send();
+            }
+            function handleResult(xhr) {
+                console.log("XHR at " + xhr.readyState);
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var serverData = eval( "(" + xhr.responseText + ")" );
+                        printMsg(serverData.title + " "
+                                 + serverData.forename + " "
+                                 + serverData.surname);
+                    }
+                }
+            }
+            function printMsg(msg) {
+                document.getElementById("results").innerHTML = msg;
+            }
+        </script>
+    </head>
+    <body>
+        <form onsubmit="return false;">
+            <p id="results">
+            </p>
+            <p>
+                <input name="myButton" onclick="sendRequest();"
+                       type="submit" value="Push Me"/>
+            </p>
+        </form>
+    </body>
+</html>

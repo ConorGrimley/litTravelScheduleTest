@@ -1,0 +1,14 @@
+<script>
+    function print(str) {
+        document.write("<h3>"+ str + "</h3>");
+    }
+    var toStringOfObj = Object.prototype.toString;
+    print(toStringOfObj.call({}));
+    print(toStringOfObj.call([]));
+    print(toStringOfObj.call(null));
+    print(toStringOfObj.call(undefined));
+    print(toStringOfObj.call(''));
+    print(toStringOfObj.call(0));
+    print(toStringOfObj.call(function(){}) );
+    print(toStringOfObj.call(/rx/));
+</script>

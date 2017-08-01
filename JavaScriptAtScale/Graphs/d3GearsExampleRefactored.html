@@ -1,0 +1,237 @@
+<html>
+	<head>
+		<style>
+			body {
+			  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			  width: 960px;
+			  height: 500px;
+			  position: relative;
+			}
+
+			form {
+			  position: absolute;
+			  top: 1em;
+			  left: 1em;
+			}
+
+			path {
+			  fill-rule: evenodd;
+			  stroke: #333;
+			  stroke-width: 2px;
+			}
+
+			.centreRing path {
+			  fill: #6baed6;
+			}
+
+			.innerRings path {
+			  fill: #9ecae1;
+			}
+
+			.outerRing path {
+			  fill: #c6dbef;
+			}
+		</style>
+
+		<script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+	</head>
+	<body>
+		<form>
+			<h4>Gear Speed</h4>
+			<input id="ref-speed" type="range" name="speed" min="1" max="50" value="5"><label for="ref-speed">Speed</label><br>
+
+			<h4>Gear Focus</h4>
+			<input id="ref-outerRing" type="radio" name="gear-selection"><label for="ref-outerRing">Outer Ring</label><br>
+			<input id="ref-innerRings" type="radio" name="gear-selection" checked><label for="ref-innerRings">Inner Rings</label><br>
+			<input id="ref-centerRing" type="radio" name="gear-selection"><label for="ref-centerRing">Center Ring</label>
+		</form>
+		<div id="chart">
+			<svg></svg>
+		</div>
+	</body>
+	<footer>
+		<script>
+			var width = 960;
+			var height = 500;
+			var radius = 80;
+			var x = Math.sin(2 * Math.PI / 3);
+			var y = Math.cos(2 * Math.PI / 3);
+
+			var offset = 0; // Stored for each frame.
+			var speed = 4; // The speed that each gear will rotate.
+			var start = Date.now(); // The start time which is used to figure out the delta time for rotations.
+
+			var numberOfCentreTeeth = 16;
+			var numberOfInnerTeeth = 32;
+			var numberOfOuterTeeth = 80;
+
+			var chart = createChart();
+			var frame = createFrame();
+			addCentreRingGear();
+			addFirstInnerRingsGear();
+			addSecondInnerRingsGear();
+			addThirdInnerRingsGear();
+			addOuterRingGear();
+			addSpeedSelection();
+			addGearFocusSelection();
+
+			function createChart() {
+				return d3.select("#chart")
+					.selectAll("svg")
+						.attr("width", width)
+						.attr("height", height)
+					.append("g")
+						.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(.55)")
+					.append("g");
+			}
+
+			function createFrame() {
+				return chart.append("g")
+					.datum({radius: Infinity});
+			}
+
+			function addCentreRingGear() {
+				frame.append("g")
+						.attr("class", "centreRing")
+						.datum({
+							teeth: numberOfCentreTeeth, 
+							radius: radius
+						})
+					.append("path")
+						.attr("d", createGear);
+			}
+
+			function addFirstInnerRingsGear() {
+				frame.append("g")
+						.attr("class", "innerRings")
+						.attr("transform", "translate(0,-" + radius * 3 + ")")
+						.datum({
+							teeth: numberOfInnerTeeth, 
+							radius: -radius * 2
+						})
+					.append("path")
+						.attr("d", createGear);
+			}
+
+			function addSecondInnerRingsGear() {
+				frame.append("g")
+						.attr("class", "innerRings")
+						.attr("transform", "translate(" + -radius * 3 * x + "," + -radius * 3 * y + ")")
+						.datum({
+							teeth: numberOfInnerTeeth, 
+							radius: -radius * 2
+						})
+					.append("path")
+						.attr("d", createGear);
+			}
+
+			function addThirdInnerRingsGear() {
+				frame.append("g")
+						.attr("class", "innerRings")
+						.attr("transform", "translate(" + radius * 3 * x + "," + -radius * 3 * y + ")")
+						.datum({
+							teeth: numberOfInnerTeeth, 
+							radius: -radius * 2
+						})
+					.append("path")
+						.attr("d", createGear);
+			}
+
+			function addOuterRingGear() {
+				frame.append("g")
+					.attr("class", "outerRing")
+					.datum({
+						teeth: numberOfOuterTeeth, 
+						radius: -radius * 5, 
+						outerRing: true
+					})
+				.append("path")
+					.attr("d", createGear);
+			}
+
+			function addSpeedSelection() {
+				d3.selectAll("input[name=speed]")
+					.on("change", function() {
+						speed = +this.value; 
+					});
+			}
+
+			function addGearFocusSelection() {
+				var inputSelection = [
+					radius * 5, 
+					Infinity, 
+					-radius
+				];
+				d3.selectAll("input[name=gear-selection]")
+					.data(inputSelection)
+					.on("change", function(newRadius) {
+						var oldRadius = frame.datum().radius;
+						var angle = (Date.now() - start) * speed;
+						frame.datum({radius: newRadius});
+						chart.attr("transform", "rotate(" + (offset += (angle / oldRadius) - (angle / newRadius) + ")"));
+					});
+			}
+
+			function createGear(element) {
+				var numberOfTeeth = element.teeth;
+				var middleRadius = Math.abs(element.radius); // The radius between the start and end of the teeth.
+				var innerRadius = middleRadius - 8; // The radius at the bottom of the teeth.
+				var outerRadius = middleRadius + 8; // The radius on the outer tip of the teeth.
+				if (element.outerRing) { // Different values if this is the outer ring gear.
+					var cutoutRadius = middleRadius + 20; // Set the cutout radius to be slightly larger than the middle radius so the entire inside is white.
+					var oldInnerRadius = innerRadius; // Set the cutout radius (white background) to the inner radius.
+					innerRadius = outerRadius; // Set the inner radius to now be the outer radius so that teeth are drawn from the furtherest point.
+					outerRadius = oldInnerRadius; // Set the outer radius to be the old inner radius so that teeth are drawn pointing in.
+				} else {
+					var cutoutRadius = 20; // A small cutout radius for all other gears besides the outer ring.
+				}
+
+				var teethSpacing = Math.PI / numberOfTeeth; // The spacing between each tooth.
+				var toothStartingPoint = 0; // The tooth starting point will only change for the outer ring to help sync up teeth.
+				if (element.outerRing) {
+					toothStartingPoint += Math.PI / numberOfTeeth;
+				}
+
+				var path = ["M", innerRadius * Math.cos(toothStartingPoint), ",", innerRadius * Math.sin(toothStartingPoint)];
+				addTeeth();
+				addCutout();
+				return path.join("");
+
+				function addTeeth() {
+					while (numberOfTeeth-- != 0) {
+						addTooth();
+					}
+				}
+
+				function addTooth() {
+					path.push(
+						"A", innerRadius, ",", innerRadius, " 0 0,1 ", innerRadius * Math.cos(toothStartingPoint += teethSpacing), ",", innerRadius * Math.sin(toothStartingPoint),
+						"L", middleRadius * Math.cos(toothStartingPoint), ",", middleRadius * Math.sin(toothStartingPoint),
+						"L", outerRadius * Math.cos(toothStartingPoint += teethSpacing / 3), ",", outerRadius * Math.sin(toothStartingPoint),
+						"A", outerRadius, ",", outerRadius, " 0 0,1 ", outerRadius * Math.cos(toothStartingPoint += teethSpacing / 3), ",", outerRadius * Math.sin(toothStartingPoint),
+						"L", middleRadius * Math.cos(toothStartingPoint += teethSpacing / 3), ",", middleRadius * Math.sin(toothStartingPoint),
+						"L", innerRadius * Math.cos(toothStartingPoint), ",", innerRadius * Math.sin(toothStartingPoint)
+					);
+				}
+
+				function addCutout() {
+					path.push(
+						"M0,", -cutoutRadius,
+						"A", cutoutRadius, ",", cutoutRadius, " 0 0,0 0,", cutoutRadius,
+						"A", cutoutRadius, ",", cutoutRadius, " 0 0,0 0,", -cutoutRadius
+					);
+				}
+			}
+
+			d3.timer(function() { // Will trigger as fast as possible.
+				var angle = (Date.now() - start) * speed; // Determine the new position based on delta time.
+				var transform = function(dataPoint) { // Calculate the new rotation for the gears.
+					return "rotate(" + angle / dataPoint.radius + ")"; 
+				};
+				frame.selectAll("path") // Apply the transformation to gears.
+					.attr("transform", transform);
+				frame.attr("transform", transform); // Apply tranformation to entire frame.
+			});
+		</script>
+	</footer>
+</html>

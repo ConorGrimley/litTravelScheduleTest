@@ -1,0 +1,17 @@
+<script>
+	var tstString = "abcdefghijklmnopqrstuvwxyz";
+	document.write("<p>Original string is: " + tstString  + "</p>");
+	document.write("<p>Upper case version is: " + tstString.toUpperCase()  + "</p>");
+	document.write("<p>In bold font weight is: " + tstString.bold()  + "</p>");
+	document.write("<p>In italics is: " + tstString.italics()  + "</p>");
+	document.write("<p>First four characters are: " + tstString.substring(0,4)  + "</p>");
+	document.write("<p>Last four characters are: " + tstString.substr(-4,4)  + "</p>");
+	document.write("<p>Replacing letters produces: " + tstString.replace(/[dhlptx]/g,"-")  + "</p>");
+	
+        var tokens = tstString.replace(/[dhlptx]/g,"-").split("-");
+	document.write("<p>Tokenizing string produces</p><ul>");
+	for(var i in tokens) {
+		document.write("<li>" + tokens[i] + "</li>");
+	}
+	document.write("</ul>");
+</script>

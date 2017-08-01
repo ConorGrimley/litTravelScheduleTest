@@ -1,0 +1,22 @@
+<script>
+    function connectToNetwork(args) {
+        var url = args.url         || "localhost";
+        var port = args.port       || 8001;
+        var timeout = args.timeout || 30;
+        var retries = args.retries || 7;
+        
+        var msg = "About to connect to " + url +
+                  " on port " + port + 
+                  " will retry " + retries + " times " +
+                  " with a timeout of " + timeout + " seconds";
+        document.write(msg);
+        document.write("<hr/>");
+    }
+    
+    connectToNetwork({});
+    connectToNetwork({
+                        url: "www.megacorp.com",
+                        port: 8080,
+                        timeout: 15
+                     });
+</script>

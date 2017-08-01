@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="/JavaScriptExamples/Frameworks/jquery/jquery-1.7.2.js"></script>
+        <script>
+            var people = [];
+            $(document).ready(function(){
+                var addForm =  $('#addPersonForm');
+                var viewForm = $('#viewPeopleForm');
+                
+                $(addForm).bind('submit', addPerson);
+                $(viewForm).bind('submit', viewPeople);
+            });
+            
+            function addPerson(theEvent) {
+                theEvent.preventDefault();
+                var addForm = $('#addPersonForm')[0];
+                var thePerson = {
+                    name: addForm.myName.value,
+                    age:  addForm.myAge.value,
+                    salary: addForm.mySalary.value
+                };
+                people.push(thePerson);
+                var outputTag = $('#out1');
+                $(outputTag).html("So far we have stored " + people.length + " people");
+            }
+            function viewPeople(theEvent) {
+                theEvent.preventDefault();
+                var body = $('#tableBody');
+                for (var x = 0; x < people.length; x++) {
+                    var rowNode = buildRowBasedOnPerson(people[x]);
+                    $(body).append(rowNode);
+                }
+            }
+            function buildRowBasedOnPerson(person) {
+                var rowNode = $("<tr></tr>");
+                
+                $(rowNode).append($('<td>' + person.name + '</td>'));
+                $(rowNode).append($('<td>' + person.age + '</td>'));
+                $(rowNode).append($('<td>' + person.salary + '</td>'));
+                
+                return rowNode;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Personal Details Entry</h1>
+        <output id="out1"></output>
+        <form id='addPersonForm'>
+            <div>
+                <label>Your Name</label>              
+                <input type="text" name="myName" value="Dave"/>
+            </div>
+            <div>
+                <label>Your Age</label>
+                <input type="text" name="myAge" value="32"/>
+            </div>
+            <div>
+                <label>Your Salary</label>
+                <input type="text" name="mySalary" value="16000"/>
+            </div>
+            <input type="submit" value="Add Details"/>
+        </form>
+        <form id='viewPeopleForm' >
+            <input type="submit" value="View Stored People"/>
+        </form>
+        <table>
+            <thead>
+                <tr><th>Name</th><th>Age</th><th>Salary</th></tr>
+            </thead>
+            <tbody id="tableBody">
+
+            </tbody>
+        </table>
+    </body>
+</html>

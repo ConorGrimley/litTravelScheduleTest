@@ -1,0 +1,33 @@
+<script>
+    var p1 = new Object();
+    p1.name = "Joe Bloggs";
+    p1.age = 27;
+    p1.address = "9 Arcatia Road";
+
+    var p2 = {name : "Jane Bloggs", age: 28, address : "10 Arcatia Road"};
+
+    function Person(p1,p2,p3) {
+        this.name = p1;
+        this.age = p2;
+        this.address = p3;
+    }
+
+    var p3 = new Person("Fred Bloggs",29,"11 Arcatia Road");
+    var p4 = new Person("Susan Bloggs",30,"12 Arcatia Road");
+
+    function printPerson(person) {
+        document.write("<p>Person called ");
+        document.write(person.name);
+        document.write(" of age ");
+        document.write(person.age);
+        document.write(" living at ");
+        document.write(person.address);
+        document.write("</p>");
+        document.write("<hr/>");
+    }
+
+    printPerson(p1);
+    printPerson(p2);
+    printPerson(p3);
+    printPerson(p4);
+</script>
