@@ -301,6 +301,7 @@ describe("My admin page loaded", function() {
 });
 
 //Return a list of the data
+/**
 describe("Get upload history", function() {
     const api = restful('http://localhost:3000/api');
     beforeEach(function( done ) {
@@ -318,7 +319,7 @@ describe("Get upload history", function() {
         expect(response.statusCode()).toEqual("304 Not Modified")
     })
 })
-
+**/
 //admin.js
 
 describe("fetch / post / add users", function () {
@@ -388,3 +389,23 @@ describe("MyTravel page", function () {
         expect(response.statusCode() == "200 OK" || response.statusCode() == "304 Not Modified").toBe(true)
     });
 });
+
+describe("Search", function () {
+    const api = restful('http://localhost:3000/api');
+    beforeAll(function (done) {
+        var password = 'elnino09'
+        spyOn(this, login('n0313111', password)).and.callFake(
+            function () {
+                done();
+            });
+    });
+    it("Should post a search term to the server with a response of 200 OK", function () {
+        api.all('search')
+            .post(
+                ({params}),
+                null,
+                {'Authorization': `Bearer ${getState().auth.token}`} // Header
+            )
+        expect(response.statusCode()).toEqual(200)
+    });
+})
